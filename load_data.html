@@ -1,0 +1,73 @@
+FINANSE PANEL
+
+<div>
+<style type="text/css">
+    .buttons {display:-webkit-box;}
+    .buttonK {background-color:#70bf44;color:white;font-size:16px;line-height:1.6;font-weight:700;border-style:solid;text-align:center;vertical-align:middle;cursor:pointer;border:0px;width:250px;height:50px;padding:8px 16px;margin:10px;}
+    .buttonK:hover:enabled {opacity:0.75;}
+    .buttonK:disabled {opacity:0.25;color:black;}
+    .santander {background-color:#ec0000;}
+    .santander img {width:90px;margin:0px 0px 7px 0px;}
+</style>
+<script type="text/javascript" src="/load_data.js"></script>
+<div class="buttons">
+    <input type="file" class="buttonK" onchange="loadDataFiles(event)" multiple />
+    <button class="buttonK" onclick="earningsCalculation();" id="krakenSalary" disabled>Расчёт выплат</button>
+    <button class="buttonK" onclick="" id="krakenExportCSV" disabled>Экспорт в CSV файл</button>
+    <button class="buttonK santander" onclick="userData2Santander();" id="krakenExport2Bank" disabled>Экспорт для <img src="/santander_logo.svg" alt="Santander" loading="lazy"></button>
+    <button class="buttonK" onclick="printData('krakenData');" id="krakenPrint" disabled>Печать таблицы</button>
+</div>
+<div id="krakenData">
+    <style type="text/css">
+        @media print{@page {size:A4 landscape;}}
+        .krakenDataTable {color:black;border-collapse:collapse; width: 100%;}
+        .krakenDataTable td {font-size:11pt;font-weight:normal;border:0.2px solid #70bf44;padding:2px 5px 2px 5px;font-family:ui-monospace;}
+        .krakenHeader td, .krakenIndex {font-size:12pt;font-weight:bold !important;background-color:lightgray;cursor:pointer;text-align:center;padding:4px 6px 4px 6px;}
+        .krakenDataTable td:hover {border: solid 1px darkgreen;}
+        .krakenDataRow:hover {opacity:0.85;}
+        .krakenNegative {color:red;font-weight:bold !important;}
+        .name {background-color:linen;text-align:left;}
+        .moneyUber, .taxUber, .cashUber {background-color:lightcyan;text-align:right;}
+        .moneyBolt, .taxBolt, .cashBolt {background-color:cornsilk;text-align:right;}
+        .moneyWolt, .taxWolt, .tipsWolt {background-color:cornsilk;text-align:right;}
+        .moneyFree, .taxFree, .cashFree {background-color:honeydew;text-align:right;}
+        .moneySum, .taxSum, .cashSum {background-color:ivory;text-align:right;}
+        .commission {background-color:lavender;text-align:right;}
+        .zus, .debt, .inv {background-color:mistyrose;text-align:right;}
+        .payout {background-color:beige;text-align:right;}
+        .iban {background-color:floralwhite;text-align:center;padding:2px;}
+        .showCell {display:table-cell !important;}
+        .hideCell {display:none !important;}
+        #krakenNoData {border:solid 2px red;padding:10px 50px 10px 50px;margin:20px 0px;display:none;}
+    </style>
+    <table id="krakenTable"></table>
+    <span id="krakenNoData">В файлах нет данных по водителям или курьерам</span>
+</div>
+</div>
+
+
+USER PROFILE:
+
+<style type="text/css">
+    .buttons {display:-webkit-box;}
+    .buttonK {background-color:#70bf44;color:white;font-size:15px;line-height:1.6;font-weight:700;border-style:solid;text-align:center;vertical-align:middle;cursor:pointer;border:0px;width:200px;height:40px;padding:4px 8px;margin:10px;}
+    .buttonK:hover:enabled {opacity:0.75;}
+    .buttonK:disabled {opacity:0.25;color:black;}
+    .buttonLogout {float:right;margin-left:auto; display:none;}
+</style>
+<script>
+    function addCss2Dolibarr() {
+        let link = document.createElement('link');
+        link.type = "text/css";
+        link.rel = "stylesheet";
+        link.href = "/kraken_erp.css";
+        document.getElementById('clientPanel').contentDocument.head.appendChild(link);
+    }
+</script>
+<div class="buttons">
+    <button id="krakenSalaries" class="buttonK" onclick="document.getElementById('clientPanel').src='/erp/salaries/list.php';">Мои Выплаты</button>
+    <button id="krakenPersonalData" class="buttonK" onclick="document.getElementById('clientPanel').src=document.getElementById('clientPanel').contentDocument.getElementsByClassName('dropdown-toggle login-dropdown-a')[0].href;">Мой профиль</button>
+    <button id="krakenUserLogout" class="buttonK buttonLogout" onclick="document.getElementById('clientPanel').src='/erp/user/logout.php';">Выход</button>
+</div>
+<iframe id="clientPanel" src="/erp/salaries/list.php" style="width: 100%;" onload="addCss2Dolibarr();document.getElementById('clientPanel').height = document.getElementById('clientPanel').contentDocument.body.scrollHeight + 'px';">
+</iframe>
